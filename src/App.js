@@ -1,25 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from "react";
+import "./App.css";
+import Navbar from "./components/Navbar";
+import Country from "./components/Country";
+import Home from "./components/Home";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const App = () => {
+	const [countries, setCountries] = useState([]);
+	const [selectedCountry, setSelectedCountry] = useState();
+
+	useEffect(() => {
+		fetch("https://restcountries.eu/rest/v2/all")
+			.then(res => res.json())
+			.then(result => {
+				setCountries(result);
+			})
+			.catch(err => console.log(err));
+	}, []);
+
+	return (
+		<div id="app" className="light">
+			<Navbar />
+			{!selectedCountry ? (
+				<Home
+					countries={countries}
+					setCountries={setCountries}
+					setSelectedCountry={setSelectedCountry}
+				/>
+			) : (
+				<Country
+					country={selectedCountry}
+					setSelectedCountry={setSelectedCountry}
+				/>
+			)}
+		</div>
+	);
+};
 
 export default App;
