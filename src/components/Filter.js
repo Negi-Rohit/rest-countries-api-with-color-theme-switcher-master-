@@ -5,7 +5,7 @@ const Filter = ({ setSearch, setCountries }) => {
 	const regionChange = (e) => {
 		const region = e.target.value;
 
-		if (region !== "Worldwide") {
+		if (region !== "World") {
 			fetch(`https://restcountries.eu/rest/v2/region/${region.toLowerCase()}`)
 				.then(res => res.json())
 				.then(result => setCountries(result))
